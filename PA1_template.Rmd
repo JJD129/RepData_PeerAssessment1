@@ -11,6 +11,7 @@ load necessary packages
 library(dplyr)
 library(lattice)
 library(knitr)
+library(ggplot2)
 opts_chunk$set(echo = TRUE)
 ```
 
@@ -158,14 +159,15 @@ day <- function(date){
   }
 }
 
-fd$day <- as.factor(sapply(fd$date, day))
-fd$daydate <- sapply(fd$date, FUN = day)
+filled.dat$day <- as.factor(sapply(filled.dat$date, day))
+filled.dat$daydate <- sapply(filled.dat$date, FUN = day)
 
 ```
 
 Make a panel plot containing a time series plot (i.e. type = l) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
 
 ```{r, echo=FALSE Results=hide}
-averages <- aggregate(steps ~ interval + day, data = fd, mean)
-ggplot(averages, aes(interval, steps)) + geopm_line() + facet_grid(day~.) + xlab("5-minute interval") + ylab("Number of steps")
+averages <- aggregate(steps ~ interval + day, data = filled.dat, mean)
+ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(day ~ .) + 
+    xlab("5-minute interval") + ylab("Number of steps")
 ```
